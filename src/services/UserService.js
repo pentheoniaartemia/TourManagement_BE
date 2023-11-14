@@ -15,30 +15,29 @@ const hashPassword =  (password) => {
 
 // So sánh password với password đã được mã hóa
 const comparePassword = (password, hashedPassword) => {
-    return bcrypt.compare(password, hashedPassword);
+    return bcrypt.compareSync(password, hashedPassword);
 }
 
 
 // Register
 const createAccount = (newUser) => {
     return new Promise( async (resolve, reject) => {
-        const {name, email, password, confirmPassword, phone} = newUser;
+        const {name, email, password, confirmPassword} = newUser;
         try {
             const checkUser = await User.findOne({
                 email: email
             })
             if(checkUser !== null) {
                 resolve({
-                    status: 'OK'
+                    status: 'OK',
+                    message: 'Email đã đăng kí'
                 })
             }
             const hashedPassword = hashPassword(password);
             const createUser = await User.create({
                 name, 
                 email,
-                password: hashedPassword, 
-                confirmPassword: hashedPassword, 
-                phone
+                password: hashedPassword
             })
             if(createUser) {
                 resolve({

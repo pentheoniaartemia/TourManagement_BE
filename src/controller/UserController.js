@@ -4,11 +4,11 @@ const UserService = require('../services/UserService');
 // Register  
 const createAccount = async (req, res) => {
     try {
-        const {name, email, password, confirmPassword, phone} = req.body;
+        const {name, email, password, confirmPassword} = req.body;
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const checkEmail = reg.test(email);
 
-        if(!name || !email || !password || !confirmPassword || !phone) {
+        if(!email || !password || !confirmPassword) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'Vui lòng nhập dữ liệu'
@@ -18,7 +18,7 @@ const createAccount = async (req, res) => {
                 status: 'ERR',
                 message: 'Vui lòng nhập lại email'
             })
-        } else if(password !== confirmPassword) {
+        } else if(password != confirmPassword) {
             return res.status(200).json({
                 status: 'ERR',
                 message: 'Vui lòng nhập đúng password'
@@ -26,7 +26,6 @@ const createAccount = async (req, res) => {
         }
 
         const respond = await UserService.createAccount(req.body);
-        
         return res.status(200).json(respond);
     } catch(error) {
         return res.status(404).json({
@@ -41,10 +40,15 @@ const loginAccount = async (req, res) => {
         const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         const checkEmail = reg.test(email);
 
-        if(!checkEmail) {
+        if(!email || !password) {
             return res.status(200).json({
                 status: 'ERR',
-                message: 'Vui lòng nhập đúng password'
+                message: 'Vui lòng nhập thông tin'
+            })
+        } else if(!checkEmail) {
+            return res.status(200).json({
+                status: 'ERR',
+                message: 'Vui lòng nhập đúng định dạng email'
             })
         }
 
@@ -57,10 +61,6 @@ const loginAccount = async (req, res) => {
         });
     }
 }
-
-// Facebook Login
-// Google Login
-// ForgetPassword 
 
 module.exports = {
     createAccount,

@@ -14,13 +14,14 @@ const userSchema = new mongoose.Schema(
             required: true
         },
         phone: {
-            type: String,
-            required: true
+            type: String
         },
-        // address: {
-        //     type: String,
-        //     require: true
-        // },
+        avatar: {
+            type: String
+        },
+        passport: {
+            type: String
+        },
         isAdmin: {
             type: Boolean,
             default: false, 
@@ -34,29 +35,16 @@ const userSchema = new mongoose.Schema(
         //     type: String,
         //     required: true
         // },
-        favorite: [
-            {
-                tour: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'tour',
-                    require: true
-                }
-            }
-        ],
+        // tour: {
+        //     nameTour: {type: String, required: true},
+        //     price: {type: Number, required: true},
+        //     status: {type: String, required: true, default: "Chưa thanh toán"}
+        // },
+        order: {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Booking'
+        }
 
-        order: [
-            {
-                status: {
-                    type: String,
-                    require: true
-                },
-                tour: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'tour',
-                    require: true
-                }
-            }
-        ]
     }
 )
 
